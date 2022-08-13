@@ -40,8 +40,24 @@
     </nav>
 
     <!-- Page content -->
+
     <div class="container-fluid">
+        
             <h2>{{ course.name }}</h2>
+            <div class="card-columns-vertical">
+                {% for lesson in course.lesson_set.all %}
+                    <div class="card mt-1">
+                        <div class="card-header"><h5>Lesson {{lesson.order|add:1}}: {{lesson.title}}</h5></div>
+                        <button data-toggle="collapse" data-target="#exam">Collapsible</button>
+                        <div id="exam" class="collapse">
+
+                        <div class="card-body">{{lesson.content}}</div>
+                        </div>
+                    </div>
+                    </div>
+                {% endfor %}
+        
+                            <h2>{{ course.name }}</h2>
             <div class="card-columns-vertical">
                 {% for lesson in course.lesson_set.all %}
                     <div class="card mt-1">
