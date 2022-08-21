@@ -75,6 +75,9 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     content = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 # Enrollment model
 # <HINT> Once a user enrolled a class, an enrollment entry should be created between the user and course
@@ -112,6 +115,65 @@ class Question(models.Model):
     question_text = models.TextField()
     grade = models.IntegerField()
 
+    def __str__(self):
+        return self.question_text
+
+class QuestionTwo(models.Model):
+    course = models.ManyToManyField(Course)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    question_text = models.TextField()
+    grade = models.IntegerField()
+
+    def __str__(self):
+        return self.question_text
+
+class QuestionThree(models.Model):
+    course = models.ManyToManyField(Course)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    question_text = models.TextField()
+    grade = models.IntegerField()
+
+    def __str__(self):
+        return self.question_text
+
+class Choice(models.Model):
+    course = models.ManyToManyField(Course)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, default="lesson")
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, default="question")
+    choice_text = models.TextField()
+    grade = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.choice_text
+
+class ChoiceTwo(models.Model):
+    course = models.ManyToManyField(Course)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, default="lesson")
+    question = models.ForeignKey(QuestionTwo, on_delete=models.CASCADE, default="question")
+    choice_text = models.TextField()
+    grade = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.choice_text
+
+
+
+class ChoiceThree(models.Model):
+    course = models.ManyToManyField(Course)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, default="lesson")
+    question = models.ForeignKey(QuestionThree, on_delete=models.CASCADE, default="question")
+    choice_text = models.TextField()
+    grade = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.choice_text
+
+
+
+class Submission(models.Model):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices = models.ManyToManyField(Choice)
+
 
 
     # <HINT> A sample model method to calculate if learner get the score of the question
@@ -130,15 +192,9 @@ class Question(models.Model):
     # Choice content
     # Indicate if this choice of the question is a correct one or not
     # Other fields and methods you would like to design
-class Choice(models.Model):
-    choices = models.ManyToManyField(Question)
-    choice_text = models.TextField()
-    is_correct = models.BooleanField()
+
 
 # <HINT> The submission model
 # One enrollment could have multiple submission
 # One submission could have multiple choices
 # One choice could belong to multiple submissions
-class Submission(models.Model):
-    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-    choices = models.ManyToManyField(Choice)

@@ -48,23 +48,62 @@
                 {% for lesson in course.lesson_set.all %}
                     <div class="card mt-1">
                         <div class="card-header"><h5>Lesson {{lesson.order|add:1}}: {{lesson.title}}</h5></div>
-                        <button data-toggle="collapse" data-target="#exam">Collapsible</button>
+                        <button data-toggle="collapse" data-target="#exam">Start Exam</button>
                         <div id="exam" class="collapse">
+                            {% for question in course.question_set.all %}
+                            <div class="card-header">{{question.question_text}}</div>
+                                {% for choice in course.choice_set.all %}                
+                                <div class="form-group">
+                                     <div class="form-check">
+                                         <label class="form-check-label">
+                                             <input type="checkbox" name="choice_{{choice.id}}"
+                                                    class="form-check-input" id="{{choice.id}}"
+                                                    value="{{choice.id}}">{{ choice.choice_text }}
+                                         </label>
+                                     </div>
+    
+                                {% endfor %}
+                            {% endfor %}
 
-                        <div class="card-body">{{lesson.content}}</div>
+                            {% for questiontwo in course.questiontwo_set.all %}
+                            <div class="card-header">{{questiontwo.question_text}}</div>
+                                {% for choicetwo in course.choicetwo_set.all %}                
+                                <div class="form-group">
+                                     <div class="form-check">
+                                         <label class="form-check-label">
+                                             <input type="checkbox" name="choice_{{choice.id}}"
+                                                    class="form-check-input" id="{{choice.id}}"
+                                                    value="{{choice.id}}">{{ choicetwo.choice_text }}
+                                         </label>
+                                     </div>
+    
+                                {% endfor %}
+                            {% endfor %}
+
+                            {% for questionthree in course.questionthree_set.all %}
+                            <div class="card-header">{{questionthree.question_text}}</div>
+                                {% for choicethree in course.choicethree_set.all %}                
+                                <div class="form-group">
+                                     <div class="form-check">
+                                         <label class="form-check-label">
+                                             <input type="checkbox" name="choice_{{choice.id}}"
+                                                    class="form-check-input" id="{{choice.id}}"
+                                                    value="{{choice.id}}">{{ choicethree.choice_text }}
+                                         </label>
+                                     </div>
+    
+                                {% endfor %}
+                            {% endfor %}
+                            <input class="btn btn-success btn-block" type="submit" value="Submit">
+
+                {% endfor %}
+                
                         </div>
                     </div>
                     </div>
-                {% endfor %}
+               
         
-                            <h2>{{ course.name }}</h2>
-            <div class="card-columns-vertical">
-                {% for lesson in course.lesson_set.all %}
-                    <div class="card mt-1">
-                        <div class="card-header"><h5>Lesson {{lesson.order|add:1}}: {{lesson.title}}</h5></div>
-                        <div class="card-body">{{lesson.content}}</div>
-                    </div>
-                {% endfor %}
+           
             </div>
             <!-- Task: show questions and choices -->
             <!-- <HINT> Use Bootstrap Collapse to hide exam first, more details could be found here
